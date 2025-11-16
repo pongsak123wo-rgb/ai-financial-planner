@@ -1,0 +1,338 @@
+:root {
+    --primary-color: #1a237e; --primary-light: #e8eaf6;
+    --text-color: #37474f; --heading-color: #263238;
+    --border-color: #e0e0e0; 
+    --background-color: #f4f7f6; 
+    --card-background: #ffffff; 
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.03); 
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.05); 
+    --font-family: 'Sarabun', sans-serif;
+    --success: #2e7d32; --success-light: #e8f5e9;
+    --warning: #f9a825; --warning-light: #fffde7;
+    --danger: #c62828; --danger-light: #ffebee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+    font-family: var(--font-family); 
+    background-color: var(--background-color); 
+    color: var(--text-color); 
+    font-size: 17px; 
+    line-height: 1.6;
+}
+.container { display: flex; min-height: 100vh; }
+
+/* --- Left Input Panel (Professional) --- */
+.input-panel {
+    width: 700px; 
+    flex-shrink: 0; 
+    padding: 40px;
+    background-color: #fdfdfd; 
+    box-shadow: 4px 0 15px rgba(0,0,0,0.03);
+    border-right: 1px solid var(--border-color);
+    display: flex; flex-direction: column;
+}
+header .logo h1 { font-size: 28px; color: var(--heading-color); }
+header .logo p { font-size: 16px; color: #546e7a; margin-bottom: 30px; }
+.progress-container { width: 100%; background-color: #e8eaf6; border-radius: 20px; margin-bottom: 30px; }
+.progress-bar { height: 10px; width: 0%; background-color: var(--primary-color); border-radius: 20px; transition: width 0.4s ease; }
+.form-step { display: none; }
+.form-step.active-step { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.form-step h2 { 
+    font-size: 22px; 
+    color: var(--heading-color); 
+    margin-bottom: 25px; 
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.form-step .step-description {
+    font-size: 16px;
+    color: #546e7a;
+    margin-bottom: 20px;
+}
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--heading-color); }
+input[type="text"], input[type="number"], select, textarea { 
+    width: 100%; 
+    padding: 12px 15px; 
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    font-size: 16px; 
+    font-family: var(--font-family);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+    outline: none;
+}
+.checkbox-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.checkbox-group div { display: flex; align-items: center; background: var(--background-color); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);}
+.checkbox-group input { width: auto; margin-right: 10px; }
+.goal-block { background-color: var(--card-background); padding: 20px; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+.goal-block h4 { margin-bottom: 15px; } 
+.goal-block .form-grid, .form-step .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; } 
+.btn-group { margin-top: auto; display: flex; gap: 15px; padding-top: 20px; border-top: 1px solid var(--border-color);} 
+button { padding: 12px 25px; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background-color 0.2s; }
+button:disabled { background-color: #90a4ae; cursor: not-allowed; } 
+.primary-btn { background: var(--primary-color); color: white; flex-grow: 1; }
+.primary-btn:hover:not(:disabled) { background: #283593; }
+.secondary-btn { background: #e8eaf6; color: var(--primary-color); width: 100%; margin-top: 10px; }
+.secondary-btn:hover:not(:disabled) { background: #c5cae9; }
+.disclaimer { margin-top: 20px; font-size: 12px; color: #78909c; }
+
+/* --- Right Output Panel (Professional) --- */
+.output-panel { flex-grow: 1; padding: 40px; overflow-y: auto; }
+.welcome-container { text-align: center; color: #546e7a; max-width: 500px; margin: auto; height: 100%; display: flex; align-items: center; justify-content: center; }
+.welcome-container h2 { font-size: 28px; color: var(--heading-color); margin-bottom: 15px; }
+
+.results-hidden { display: none !important; }
+#results-container h2 { 
+    font-size: 32px; 
+    color: var(--heading-color); 
+    margin-bottom: 25px; 
+    text-align: left;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+#user-name { color: var(--primary-color); }
+
+.main-content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;}
+.plan-card { 
+    background: var(--card-background); 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: var(--shadow-md); 
+    border: 1px solid var(--border-color);
+}
+.plan-card h3 { text-align: left; font-size: 22px; margin-bottom: 20px; color: var(--heading-color); }
+
+/* (Risk Profile) */
+#risk-profile-summary .persona { font-size: 16px; font-weight: 700; color: var(--primary-color); margin-bottom: 10px; }
+#risk-profile-summary .risk-level { font-size: 24px; font-weight: 700; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 15px; }
+#risk-profile-summary .risk-level.low { background-color: var(--success-light); color: var(--success); }
+#risk-profile-summary .risk-level.medium { background-color: var(--warning-light); color: var(--warning); }
+#risk-profile-summary .risk-level.high { background-color: var(--danger-light); color: var(--danger); }
+#risk-profile-summary p { font-size: 16px; } 
+
+/* (Insurance) */
+#insurance-recommendation .rec-card { background-color: var(--primary-light); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #c5cae9; }
+#insurance-recommendation h4 { color: var(--primary-color); font-size: 16px; margin-bottom: 8px; }
+.insurance-details { margin-top: 15px; padding-top: 10px; border-top: 1px solid #c5cae9; display: flex; flex-direction: column; gap: 5px; font-size: 14px; }
+.insurance-details span { color: var(--text-color); }
+.insurance-disclaimer { font-size: 12px; color: #546e7a; margin-top: 15px; font-style: italic; }
+
+/* (Tax Card) */
+#tax-recommendation {
+    margin-bottom: 30px; 
+}
+#tax-recommendation .tax-rec-list {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+}
+#tax-recommendation .tax-rec-list li {
+    background: var(--background-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+}
+#tax-recommendation .tax-rec-list li strong {
+    color: var(--primary-color);
+    display: block;
+    font-size: 16px;
+}
+#tax-recommendation .tax-rec-list li span {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-right: 10px;
+}
+#tax-recommendation .tax-rec-list li small {
+    color: var(--success);
+    font-weight: 500;
+}
+.tax-summary-highlight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    background: var(--primary-light);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 1px solid #c5cae9;
+}
+.tax-summary-highlight div {
+    display: flex;
+    flex-direction: column;
+}
+.tax-summary-highlight label {
+    font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.tax-summary-highlight span {
+    font-size: 20px;
+    font-weight: 700;
+    color: #546e7a;
+    text-decoration: line-through;
+}
+.tax-summary-highlight strong {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--success);
+}
+
+/* (Portfolio Table) */
+.portfolio-table { width: 100%; border-collapse: collapse; margin-top: 15px;}
+.portfolio-table th, .portfolio-table td { padding: 12px 10px; border-bottom: 1px solid var(--border-color); text-align: left; font-size: 15px; } 
+.portfolio-table th { color: #546e7a; font-weight: 500; }
+.portfolio-table tr:last-child td { border-bottom: none; }
+.portfolio-table .price-loading { color: #546e7a; }
+.portfolio-table .price-up { color: var(--success); font-weight: 700; }
+.portfolio-table .price-down { color: var(--danger); font-weight: 700; }
+.portfolio-table td small {
+    font-size: 13px; 
+    color: #546e7a;
+    font-weight: 500;
+}
+
+/* (Goal Feasibility) */
+#goals-feasibility-container h3 { 
+    font-size: 22px; 
+    color: var(--heading-color); 
+    margin-bottom: 20px; 
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.goal-card { 
+    background: white; 
+    box-shadow: var(--shadow-md); 
+    border: 1px solid var(--border-color);
+    border-radius: 12px; 
+    margin-bottom: 25px; 
+    overflow: hidden; /* ❗️ [เพิ่มใหม่] ❗️ */
+}
+.goal-card-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;}
+.goal-card-header h4 { font-size: 20px; color: var(--heading-color); margin: 0; }
+.goal-card-header .portfolio-summary { font-size: 14px; font-style: italic; color: #546e7a; }
+.goal-card-body { padding: 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; align-items: start; } 
+.probability-card { text-align: center; }
+.probability-card .percent { font-size: 48px; font-weight: 700; margin-bottom: 5px; transition: color 0.3s; }
+.probability-card .percent.success { color: var(--success); }
+.probability-card .percent.warning { color: var(--warning); }
+.probability-card .percent.danger { color: var(--danger); }
+.probability-card .label { font-size: 14px; color: #546e7a; }
+.feasibility-details { font-size: 16px; line-height: 1.7; } 
+.feasibility-details p { margin-bottom: 15px; }
+.feasibility-details .scenario { padding: 10px; border-radius: 8px; background-color: #f5f7fa; border: 1px solid var(--border-color); font-style: italic; }
+
+.invest-warning { color: var(--warning); font-weight: 700; }
+.invest-danger { color: var(--danger); font-weight: 700; }
+.invest-success { color: var(--success); font-weight: 500; }
+
+/* ❗️❗️❗️ [เพิ่มใหม่] Sandbox Styles ❗️❗️❗️ */
+.sandbox-toggle-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+}
+.sandbox-toggle-btn:hover {
+    background-color: #e8eaf6;
+}
+
+.sandbox-controls {
+    display: none; /* ซ่อนไว้ก่อน */
+    padding: 20px;
+    background-color: #fdfdfd;
+    border-top: 1px dashed var(--border-color);
+    animation: fadeIn 0.3s;
+}
+.sandbox-controls.active {
+    display: block; /* แสดงเมื่อกดปุ่ม */
+}
+.sandbox-controls h4 {
+    font-size: 18px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+.sandbox-controls .form-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+.sandbox-controls .form-group label span {
+    font-weight: 700;
+    color: var(--heading-color);
+    font-size: 18px;
+}
+.sandbox-slider {
+    width: 100%;
+    margin-top: 10px;
+    cursor: ew-resize;
+}
+.prob-loading {
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+/* ❗️❗️❗️ [จบส่วน Sandbox] ❗️❗️❗️ */
+
+
+/* (Chat Co-pilot) */
+.chat-gemini-hidden { display: none; }
+#chat-gemini-container {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 2px solid var(--border-color);
+}
+#chat-gemini-container h3 { font-size: 22px; color: var(--heading-color); }
+#chat-gemini-container p { font-size: 14px; color: #546e7a; margin-bottom: 15px; }
+.chat-messages {
+    height: 300px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    overflow-y: auto;
+    background: #fdfdfd; 
+    margin-bottom: 15px;
+}
+.chat-message {
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    line-height: 1.6;
+    box-shadow: var(--shadow-sm);
+}
+.chat-message.user {
+    background-color: var(--primary-color);
+    color: white;
+    margin-left: auto;
+    text-align: left; 
+}
+.chat-message.bot {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    margin-right: auto;
+    border: 1px solid var(--border-color);
+}
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+}
+.chat-input-area input { flex-grow: 1; }
+.chat-input-area button { width: 100px; flex-shrink: 0; }
+
+
+.save-btn { float: right; width: auto; margin-top: 20px; }

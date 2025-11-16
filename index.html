@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Financial Planner Pro - v14</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="form-panel" class="input-panel">
+            <header>
+                <div class="logo"><h1>AI Financial Planner 🧠</h1><p>วิเคราะห์แผนการเงินด้วย AI (Gemini)</p></div>
+            </header>
+            <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+
+            <form id="kyc-form">
+                <div class="form-step active-step">
+                    <h2>ส่วนที่ 1: โปรไฟล์ส่วนตัวและการเงิน</h2>
+                    <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="q_name" placeholder="ระบุชื่อ-นามสกุล"></div>
+                    <div class="form-group"><label>อายุ</label><input type="number" id="q_age" placeholder="35"></div>
+                    <div class="form-group"><label>รายรับต่อเดือน</label><input type="number" id="q_income" placeholder="50000"></div>
+                    <div class="form-group"><label>รายจ่ายคงที่ต่อเดือน</label><input type="number" id="q_fixed_expenses" placeholder="25000"></div>
+                    <div class="form-group"><label>เงินสำรองฉุกเฉินที่ต้องการกันไว้ (ต่อเดือน)</label><input type="number" id="q_emergency_savings" placeholder="5000"></div>
+                    <div class="form-group"><label>คุณมีภาระต้องดูแลใครบ้าง</label>
+                        <div class="checkbox-group" id="q_dependents">
+                            <div><input type="checkbox" value="spouse"><label>คู่สมรส</label></div>
+                            <div><input type="checkbox" value="children"><label>บุตร</label></div>
+                            <div><input type="checkbox" value="parents"><label>พ่อแม่</label></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-step">
+                    <h2>ส่วนที่ 2: ประสบการณ์และความเสี่ยง</h2>
+                    <div class="form-group"><label>ประสบการณ์ลงทุน</label><select id="q_experience"><option value="1">น้อยมาก</option><option value="2">ปานกลาง</option><option value="3">สูง</option></select></div>
+                    <div class="form-group"><label>ความรู้ความเข้าใจในผลิตภัณฑ์การเงิน</label><select id="q_knowledge"><option value="1">น้อย</option><option value="2">ปานกลาง</option><option value="3">สูง</option></select></div>
+                    <div class="form-group"><label>เมื่อตลาดผันผวนหนัก คุณรู้สึกอย่างไร?</label><select id="q_volatility_reaction"><option value="1">กังวลมาก / ขายทันที</option><option value="2">ไม่สบายใจ / รอดู</option><option value="3">เฉยๆ / อาจซื้อเพิ่ม</option></select></div>
+                    <div class="form-group"><label>คุณให้ความสำคัญกับอะไรมากที่สุด?</label><select id="q_goal_priority"><option value="1">ความปลอดภัยของเงินต้น</option><option value="2">การเติบโตที่สมดุล</option><option value="3">ผลตอบแทนสูงสุด</option></select></div>
+                </div>
+
+                 <div class="form-step">
+                    <h2>ส่วนที่ 3: เป้าหมายการลงทุน (จัดลำดับความสำคัญ)</h2>
+                    <p class="step-description">เพิ่มเป้าหมายของคุณ (เช่น เกษียณ, ซื้อบ้าน)</p>
+                    <div id="goals-container"></div>
+                    <button type="button" id="add-goal-btn" class="secondary-btn">เพิ่มเป้าหมายใหม่ +</button>
+                </div>
+
+                <div class="form-step">
+                    <h2>ส่วนที่ 4: ข้อมูลลดหย่อนภาษี (โดยประมาณ)</h2>
+                    <p class="step-description">กรอกข้อมูลที่คุณจ่ายไปแล้วในปีนี้ (หากไม่ทราบ ให้เว้นว่าง)</p>
+                    
+                    <div class="form-group"><label>สถานะการยื่นภาษี</label>
+                        <select id="q_filing_status">
+                            <option value="โสด">โสด</option>
+                            <option value="สมรส (ยื่นรวม)">สมรส (ยื่นรวม)</option>
+                            <option value="สมรส (ยื่นแยก)">สมรส (ยื่นแยก)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group"><label>กองทุน RMF (ที่ซื้อปีนี้)</label><input type="number" id="q_rmf_current" placeholder="0"></div>
+                        <div class="form-group"><label>กองทุน SSF (ที่ซื้อปีนี้)</label><input type="number" id="q_ssf_current" placeholder="0"></div>
+                    </div>
+                    
+                    <div class="form-group"><label>เบี้ยประกันชีวิต / สะสมทรัพย์ (ที่ซื้อปีนี้)</label><input type="number" id="q_insurance_life" placeholder="0"></div>
+                    <div class="form-group"><label>เบี้ยประกันสุขภาพ (ตนเอง) (ที่ซื้อปีนี้)</label><input type="number" id="q_insurance_health_self" placeholder="0"></div>
+                    <div class="form-group"><label>เบี้ยประกันสุขภาพ (พ่อแม่) (ที่ซื้อปีนี้)</label><input type="number" id="q_insurance_health_parents" placeholder="0"></div>
+                    <div class="form-group"><label>ดอกเบี้ยบ้าน (ที่จ่ายปีนี้)</label><input type="number" id="q_home_loan_interest" placeholder="0"></div>
+                </div>
+                
+            </form>
+
+            <div class="btn-group">
+                <button type="button" id="prev-btn" class="secondary-btn">ย้อนกลับ</button>
+                <button type="button" id="next-btn" class="primary-btn">ถัดไป</button>
+            </div>
+
+            <div class="disclaimer">
+                <p>⚠️ **ข้อควรระวัง:** นี่เป็นเพียงคำแนะนำจาก AI เพื่อการศึกษาเท่านั้น ไม่ถือเป็นคำแนะนำการลงทุน (Investment Advice) และผู้จัดทำไม่มีส่วนเกี่ยวข้องรับผิดชอบหากเกิดความเสียหายใดๆ การลงทุนมีความเสี่ยง ผู้ลงทุนควรศึกษาข้อมูลก่อนตัดสินใจลงทุน</p>
+            </div>
+        </div>
+
+        <div id="output-panel" class="output-panel">
+             <div id="welcome-message" class="welcome-container">
+                <div>
+                    <h2>ยินดีต้อนรับสู่ AI Financial Planner</h2>
+                    <p>กรุณากรอกข้อมูลด้านซ้ายเพื่อเริ่มต้นการวิเคราะห์แผนการเงินของคุณ</p>
+                </div>
+             </div>
+             
+             <div id="results-container" class="results-hidden">
+                <h2>แผนการเงินสำหรับ <span id="user-name"></span></h2>
+                
+                <div class="main-content-grid">
+                    <div class="plan-card" id="risk-profile-summary">
+                        </div>
+                    <div class="plan-card" id="insurance-recommendation">
+                        <h3>คำแนะนำด้านประกัน</h3>
+                        </div>
+                </div>
+
+                <div class="plan-card" id="tax-recommendation">
+                    <h3>แผนการลดหย่อนภาษี (AI)</h3>
+                    </div>
+                
+                <div id="goals-feasibility-container">
+                    </div>
+                
+                <div id="chat-gemini-container" class="chat-gemini-hidden">
+                    <h3>คุยกับ Gemini (ผู้ช่วย AI)</h3>
+                    <p>มีคำถามเกี่ยวกับแผนนี้? พิมพ์ถาม AI ได้เลย</p>
+                    <div id="chat-messages" class="chat-messages">
+                        </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" placeholder="เช่น 'อธิบายกองทุน VOO ให้หน่อย'">
+                        <button id="chat-send-btn" class="primary-btn">ส่ง</button>
+                    </div>
+                </div>
+                
+                <button type="button" id="save-csv-btn" class="primary-btn save-btn">Save CSV</button>
+             </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
